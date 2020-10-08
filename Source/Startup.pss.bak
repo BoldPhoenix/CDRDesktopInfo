@@ -1,0 +1,89 @@
+﻿<File version="3.1">
+  <Code><![CDATA[#Define a Param block to use custom parameters in the project
+#Param ($CustomParameter)
+
+function Main
+{
+	###########################################################################################
+	#
+	# Cerner Desktop Info
+	# Created On:  11/13/18
+	# Script Name: CDRDesktopInfo.ps1
+	# 
+	#==========================================================================================
+	# Script designed to show relevant server info on the desktop of Windows Servers
+	#
+	# Version 1.0.0.0 	- CR026943 - 05/08/18 - Initial Creation of v1
+	#
+	# All rights reserved - Do Not Redistribute
+	#
+	# Carl Roach, Technical Architect, CSM Transition Team
+	# carl.roach@cerner.com
+	#==========================================================================================
+	# To Do List:
+	###########################################################################################
+	
+<#
+.SYNOPSIS
+App designed to display relevant server info on the desktop.
+ 
+.DESCRIPTION
+This app on first run will ask you to configure server support info, and will skip the gui on subsequent launches.
+
+.NOTES
+
+ #>
+	
+	Param ([String]$Commandline)
+	
+	#--------------------------------------------------------------------------
+	
+	
+	
+	#--------------------------------------------------------------------------
+	
+	#Sample function that provides the location of the script
+	function Get-ScriptDirectory
+	{
+	<#
+		.SYNOPSIS
+			Get-ScriptDirectory returns the proper location of the script.
+	
+		.OUTPUTS
+			System.String
+		
+		.NOTES
+			Returns the correct path within a packaged executable.
+	#>
+		[OutputType([string])]
+		param ()
+		if ($null -ne $hostinvocation)
+		{
+			Split-Path $hostinvocation.MyCommand.path
+		}
+		else
+		{
+			Split-Path $script:MyInvocation.MyCommand.Path
+		}
+	}
+	
+	#Sample variable that provides the location of the script
+	[string]$ScriptDirectory = Get-ScriptDirectory
+	$LocalDesktopInfoPath = 'c:\Scripts\CDRDesktopInfo.exe'
+
+	$Global:DesktopInfoPathTest = (Test-Path $LocalDesktopInfoPath -ErrorAction SilentlyContinue)
+	
+	$UpdateCheck = (Test-Path 'c:\Scripts\cdrdesktopinfo.exe')
+	If ($UpdateCheck -eq $True)
+	{
+		$AppInstalledVersion = ((get-item C:\scripts\cdrdesktopinfo.exe).VersionInfo | select-object FileVersion).FileVersion
+	}
+	$AppCurrentVersion = $appversion
+	If ($DesktopInfoPathTest -eq $False) { Show-MainForm_psf }
+	elseif (($DesktopInfoPathTest -eq $True) -and ($UpdateCheck -eq $False)) { Show-MainForm_psf }
+	elseif (($DesktopInfoPathTest -eq $True) -and ($UpdateCheck -eq $True) -and ($appcurrentversion -gt $AppInstalledVersion)) { Show-MainForm_psf }
+	else { DesktopInfo }
+	
+	$script:ExitCode = 0 #Set the exit code for the Packager
+}]]></Code>
+</File>
