@@ -1,9 +1,9 @@
-<Alt-H1>Cerner Desktop Info</Alt-H1>
+<Alt-H1>CDR Desktop Info</Alt-H1>
 ===========================
   <Alt-H2>DESCRIPTION:</Alt-H2>
 ---------------------------------------
 <dl>
-  <dd>Application designed to gather and show relevant server info on the desktop of Windows Servers
+  <dd>Application designed to gather and show relevant server info on the desktop of Windows PCs and Servers.
 </dl>
 
   <Alt-H2>UPDATES:</Alt-H2>
